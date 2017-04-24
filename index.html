@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            color: #554236;
+            font-family: sans-serif;
+
+            margin: 0;
+            overflow: hidden;
+        }
+        .caption {
+            font-weight: bold;
+
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            margin: 10px;
+
+            cursor: default;
+        }
+        .caption a {
+            color: #F77825;
+        }
+        .control {
+            position: absolute;
+            right: 0;
+            top: 0;
+            margin: 10px;
+            z-index: 100;
+        }
+        #d {
+            position: absolute;
+            top: 0;
+            left: 20%;
+        }
+    </style>
+</head>
+<body>
+<span class="control">
+    <label for="kp">Kp</label>
+    <input type="text" id="kp" size="8">
+    <label for="ki">Ki</label>
+    <input type="text" id="ki" size="8">
+    <label for="kd">Kd</label>
+    <input type="text" id="kd" size="8">
+    <button id="reset">Reset</button>
+</span>
+<canvas id="c"></canvas>
+<canvas id="d"></canvas>
+<script src="pid.js"></script>
+</body>
+</html>
