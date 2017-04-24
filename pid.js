@@ -65,13 +65,11 @@
     if (++historyTick == 1) {
       historyTick = 0;
 
-      if (history.length >= 1000) {
+      if (history.length >= d.width) {
         history.shift();
       }
       history.push([y, setpoint]);
     }
-
-    console.log(history);
 
     ctx.fillStyle = "#F4F4F4";
     ctx.fillRect(0, 0, c.width, c.height);
