@@ -34,8 +34,8 @@
   var history = [[]];
   var historyTick = 0;
   var lastError = 0;
-  var lastLastY = 0;
-  var lastY = 0;
+  var lastLastY = y;
+  var lastY = y;
 
   function pid() {
     var error = setpoint - lastLastY;
@@ -46,6 +46,7 @@
     } else if (integral > windup) {
       integral = windup;
     }
+
     var derivative = error - prevError;
     prevError = error;
 
@@ -57,9 +58,13 @@
 
   function update() {
     var a = pid();
-    var maxA = 0.2;
+    var maxA = 3;
     a = Math.max(Math.min(a, maxA), -maxA);
-    v += a;
+    if (Math.abs(a) < 0.001) {
+      a = 0;
+    }
+
+    v += a - v * 0.01;
     y += v;
 
     if (++historyTick == 1) {
@@ -133,10 +138,17 @@
   var kiInput = document.getElementById("ki");
   var kdInput = document.getElementById("kd");
   var reset = document.getElementById("reset");
+  var demo = document.getElementById("demo");
+
+  demo.addEventListener("click", () => {
+    setpoint -= 700;
+  });
 
   reset.addEventListener("click", () => {
     x = c.width / 2;
     y = window.innerHeight - 30;
+    lastY = y;
+    lastLastY = y;
     v = 0;
     setpoint = y;
     prevError = 0;
@@ -152,9 +164,9 @@
     integral = 0;
   }
 
-  kpInput.addEventListener("blur", updateCoefficients);
-  kiInput.addEventListener("blur", updateCoefficients);
-  kdInput.addEventListener("blur", updateCoefficients);
+  kpInput.addEventListener("change", updateCoefficients);
+  kiInput.addEventListener("change", updateCoefficients);
+  kdInput.addEventListener("change", updateCoefficients);
 
   kpInput.value = kp;
   kiInput.value = ki;
